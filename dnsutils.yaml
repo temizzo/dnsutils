@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dnsutil
+  namespace: default 
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: dnsutil
+  template:
+    metadata:
+      labels:
+        app: dnsutil
+    spec:
+      containers:
+      - name: dnsutil
+        image: ticimax.azurecr.io/imagename:buildid
+        resources:
+          requests:
+            memory: 20Mi
+            cpu: 10m
+          limits:
+            memory: 50Mi
+            cpu: 40m
+        command: ["/bin/sh", "-c", "while :; do sleep 3600; done"]
+        stdin: true
+        tty: true
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: azurecontainers
+        
